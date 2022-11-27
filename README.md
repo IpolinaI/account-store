@@ -4,5 +4,5 @@
 
 to start an application:
 
-start transaction-management application running gradle bootRun task, the app API will be available on http://localhost:8080/swagger-ui/index.html
-start account-store application running gradle bootRun task, the app API will be available on http://localhost:8090/swagger-ui/index.html
+1) start transaction-management application running gradle bootRun task, the app API will be available on http://localhost:8080/swagger-ui/index.html
+2) start account-store application running gradle bootRun task, the app API will be available on http://localhost:8090/swagger-ui/index.html
