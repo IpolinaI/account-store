@@ -1,0 +1,79 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.6'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.openapi.generator' version '6.2.1'
+}
+
+group = 'com.sample-bank'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.5'
+
+	implementation 'com.google.code.gson:gson:2.10'
+	implementation 'com.squareup.okhttp:okhttp:2.7.5'
+	implementation 'com.squareup.retrofit:retrofit:1.9.0'
+	implementation 'io.gsonfire:gson-fire:1.8.5'
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.4'
+	implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
+	implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.10'
+	implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10'
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+	implementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+	implementation 'com.google.code.findbugs:jsr305:3.0.2'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.13'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.flywaydb:flyway-core:9.8.3'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+openApiGenerate {
+	generatorName = "java"
+	inputSpec = "$rootDir/docs/openapi/transaction-management-api.yml".toString()
+	outputDir = "$buildDir/generated".toString()
+	modelPackage = "com.samplebank.transactionmanagement.dto"
+	apiPackage = ""
+	configOptions = [
+			dateLibrary: "java17"
+	]
+}
+
+compileJava.dependsOn tasks.openApiGenerate
+
+sourceSets {
+	main {
+		java.srcDirs += "$buildDir/generated/src/main".toString()
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
